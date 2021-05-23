@@ -12,14 +12,14 @@ public class UserManager implements UserService{
 
 	private UserDao userDao;
 	private VerificationCheckService verificationCheckService;
-	private ValidationManager validationManager;
+	private ValidationService validationService;
 	private AuthService authService;
 	
 	public UserManager(VerificationCheckService verificationCheckService, 
-			ValidationManager validationManager, UserDao userDao,AuthService authService) {
+			ValidationService validationService, UserDao userDao,AuthService authService) {
 		super();
 		this.verificationCheckService= verificationCheckService;
-		this.validationManager = validationManager;
+		this.validationService = validationService;
 		this.userDao = userDao;
 		this.authService = authService;
 	}
@@ -27,10 +27,10 @@ public class UserManager implements UserService{
 	@Override
 	public void add(User user) {
 		if(validationManager.emailFormatValidation(user)==true && validationManager.emailUsedBeforeCheck(user)==true
-				&& validationManager.nameValidation(user) && validationManager.passwordValidation(user) 
+				&& validationService.nameValidation(user) && validationManager.passwordValidation(user) 
 				&& verificationCheckService.verify(user)==true && authService.CheckIfTrueMail(user)==true) {
 			userDao.add(user);
-			System.out.println(user.getFirstName() + " sisteme başarıyla kaydedildi!");
+			System.out.println(user.getFirstName() + " sisteme baÃ¾arÃ½yla kaydedildi!");
 		}
 		else {
 			System.out.println(user.getFirstName() + " sisteme kaydedilemedi!");
@@ -39,19 +39,19 @@ public class UserManager implements UserService{
 
 	@Override
 	public void delete(User user) {
-		System.out.println(user.getFirstName() + " kullanıcısı başarıyla sistemden silindi!");
+		System.out.println(user.getFirstName() + " kullanÃ½cÃ½sÃ½ baÃ¾arÃ½yla sistemden silindi!");
 		
 	}
 
 	@Override
 	public void update(User user) {
-		System.out.println(user.getFirstName() + " kullanıcısı başarıyla güncellendi!");
+		System.out.println(user.getFirstName() + " kullanÃ½cÃ½sÃ½ baÃ¾arÃ½yla gÃ¼ncellendi!");
 		
 	}
 
 	@Override
 	public List<User> getAll() {
-		System.out.println("Kullanıcı Listesi:");
+		System.out.println("KullanÃ½cÃ½ Listesi:");
 		for(User user : userDao.getAll())
 			System.out.println(user.getFirstName() + " " + user.getLastName() + " " + user.getEmail());
 		return userDao.getAll();
@@ -60,10 +60,10 @@ public class UserManager implements UserService{
 	@Override
 	public boolean login(String email, String password) {
 		if(userDao.checkLogin(email, password)) {
-			System.out.println("Başarıyla sisteme giriş yapıldı!");
+			System.out.println("BaÃ¾arÃ½yla sisteme giriÃ¾ yapÃ½ldÃ½!");
 			return true;}
 		else {
-			System.out.println("Sisteme giriş yapılamadı! Parola veya email hatalı!");
+			System.out.println("Sisteme giriÃ¾ yapÃ½lamadÃ½! Parola veya email hatalÃ½!");
 			return false;}
 	}
 	
