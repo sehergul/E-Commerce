@@ -26,8 +26,8 @@ public class UserManager implements UserService{
 	
 	@Override
 	public void add(User user) {
-		if(validationManager.emailFormatValidation(user)==true && validationManager.emailUsedBeforeCheck(user)==true
-				&& validationService.nameValidation(user) && validationManager.passwordValidation(user) 
+		if(validationService.emailFormatValidation(user)==true && validationService.emailUsedBeforeCheck(user)==true
+				&& validationService.nameValidation(user) && validationService.passwordValidation(user) 
 				&& verificationCheckService.verify(user)==true && authService.CheckIfTrueMail(user)==true) {
 			userDao.add(user);
 			System.out.println(user.getFirstName() + " sisteme baþarýyla kaydedildi!");
